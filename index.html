@@ -1,0 +1,41 @@
+<head>
+  <script language="javascript" type="text/javascript" src="markov.js"></script>
+  <script language="javascript" type="text/javascript" src="sketch.js"></script>
+</head>
+
+<body>
+
+  <p>Input text:</p>
+  
+  <p>
+    <textarea id="input" rows = "10" cols="100">Paste some text here.</textarea>
+  </p>
+
+  <p>level:<br>
+    <input type="radio" name="level" value="char" checked="true" id='char'>by character<br>
+    <input type="radio" name="level" value="word" id = 'word'>by word
+  </p>
+
+  <p>
+    order: 
+    <select id = "order">
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+    </select>
+  </p>
+
+  <p>
+    length:<input type="text" size="2" id="length" value="500"></input>
+  </p>
+
+  <p>
+    <button onclick="generate()">generate</button>
+  </p>
+
+  <p>Result:</p>
+  <p id ="markov"></p>
+
+</body>

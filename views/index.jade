@@ -2,7 +2,9 @@ extends layout
 
 block content
   h1= title
-  p <a href="/">Make me a new project</a>.
-  p= gentitle
-  p= pitch
+  div#project= gentitle
 
+  div#pitch= pitch
+
+  div#generate <a href="/">Make me a new project</a>.
+  div#footer <a href="https://github.com/shiffman/ITP-Project-Generator">github</a>

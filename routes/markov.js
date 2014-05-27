@@ -8,6 +8,7 @@ function MarkovGenerator(n,max,del) {
   this.max = max;// # maximum number of elements to generate
   this.ngrams = {}; // # ngrams as keys; next elements as values
   this.beginnings = []; // beginning ngram of every line
+  this.lastChoice;
 }
 
 MarkovGenerator.prototype.tokenize = function(text) {
@@ -20,6 +21,15 @@ MarkovGenerator.prototype.concatenate = function(source) {
   //return " ".join(source);
   return source.join(this.delimiter);
 };
+
+MarkovGenerator.prototype.valid = function(text) {
+  var tokens = this.tokenize(text);
+  if (tokens.length < this.n) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 MarkovGenerator.prototype.feed = function(text) {
 
@@ -34,6 +44,7 @@ MarkovGenerator.prototype.feed = function(text) {
   // store the first ngram of this line
   var beginning = tokens.slice(0,this.n);
   this.beginnings.push(beginning.join(this.delimiter));
+  //console.log(this.beginnings.length);
 
   //console.log(this.beginnings);
 
@@ -59,17 +70,24 @@ MarkovGenerator.prototype.feed = function(text) {
 
 
 // Like python's choice
-function choice(somelist) {
-  var i = Math.floor(Math.random()*somelist.length);
+// Includes ridiculous workaround to start title and description with same random choice
+MarkovGenerator.prototype.choice = function(somelist,i,doit) {
+  if (i === undefined) {
+    i = Math.floor(Math.random()*somelist.length);
+  }
+  
+  if (doit) {
+    this.lastChoice = i;
+  }
 
   return somelist[i];
 }
 
 // generate a text from the information in self.ngrams
-MarkovGenerator.prototype.generate = function() {
+MarkovGenerator.prototype.generate = function(i) {
 
   // get a random line beginning; convert to a list. 
-  current = choice(this.beginnings);
+  var current = this.choice(this.beginnings,i,true);
 
   var output = current.split(this.delimiter);
 
@@ -77,7 +95,7 @@ MarkovGenerator.prototype.generate = function() {
     //console.log("Current: " + current);
     if (this.ngrams.hasOwnProperty(current)) {
       var possible_next = this.ngrams[current];
-      var next = choice(possible_next);
+      var next = this.choice(possible_next);
       output.push(next);
       // get the last N entries of the output; we'll use this to look up
       // an ngram in the next iteration of the loop

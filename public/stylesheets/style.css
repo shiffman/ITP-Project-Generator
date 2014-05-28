@@ -8,7 +8,19 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #000;
+}
+
+#generate a {
+  position:fixed;
+  bottom: 100px;
+  padding: 4px;
+  color: #000;
+  border: 1px;
+}
+
+#generate a:active {
+  background-color: #FF00B7;
 }
 
 #project {
@@ -22,11 +34,6 @@ a {
   height: 200px;
 }
 
-#generate {
-   position:fixed;
-   bottom: 100px;
-
-}
 
 
 #footer {
@@ -36,7 +43,7 @@ a {
    height:30px;
    width:100%;
    padding: 10px;
-   background:#555;
+   background:#FF00B7;
    font-size: 12px;
    text-align: right;
 }

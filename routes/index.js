@@ -24,6 +24,7 @@ function clean(txt) {
   ntxt = ntxt.replace(/&QUOT;/gi,'"');
   ntxt = ntxt.replace(/&lt;br \/&gt;/gi,'');
   ntxt = ntxt.replace(/&amp;/gi,'&');
+  ntxt = ntxt.replace(/&ndash;/gi,'-');
   return ntxt;
 }
 

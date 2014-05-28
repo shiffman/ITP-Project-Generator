@@ -9,6 +9,12 @@ function MarkovGenerator(n,max,del) {
   this.ngrams = {}; // # ngrams as keys; next elements as values
   this.beginnings = []; // beginning ngram of every line
   this.lastChoice;
+  this.random = Marsaglia.createRandomized();
+}
+
+MarkovGenerator.prototype.setSeed = function(seed) {
+  this.lastChoice = seed;
+  this.random = new Marsaglia(seed);
 }
 
 MarkovGenerator.prototype.tokenize = function(text) {
@@ -73,7 +79,7 @@ MarkovGenerator.prototype.feed = function(text) {
 // Includes ridiculous workaround to start title and description with same random choice
 MarkovGenerator.prototype.choice = function(somelist,i,doit) {
   if (i === undefined) {
-    i = Math.floor(Math.random()*somelist.length);
+    i = Math.floor(this.random.nextDouble()*somelist.length);
   }
   
   if (doit) {
@@ -109,3 +115,27 @@ MarkovGenerator.prototype.generate = function(i) {
 };
 
 module.exports.MarkovGenerator = MarkovGenerator;
+
+// Pseudo-random generator
+function Marsaglia(i1, i2) {
+
+  // from http://www.math.uni-bielefeld.de/~sillke/ALGORITHMS/random/marsaglia-c
+  var z=i1 || 362436069, w= i2 || 521288629;
+
+  var nextInt = function() {
+    z=(36969*(z&65535)+(z>>>16)) & 0xFFFFFFFF;
+    w=(18000*(w&65535)+(w>>>16)) & 0xFFFFFFFF;
+    return (((z&0xFFFF)<<16) | (w&0xFFFF)) & 0xFFFFFFFF;
+  };
+
+  this.nextDouble = function() {
+    var i = nextInt() / 4294967296;
+    return i < 0 ? 1 + i : i;
+  };
+
+  this.nextInt = nextInt;
+}
+Marsaglia.createRandomized = function() {
+  var now = new Date();
+  return new Marsaglia((now / 60000) & 0xFFFFFFFF, now & 0xFFFFFFFF);
+};

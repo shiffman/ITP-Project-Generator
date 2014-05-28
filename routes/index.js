@@ -11,8 +11,11 @@ var http = require('http');
 var count = 0;
 var start = 0;
 var end = 102;
+var loadedcount = 0;
 var generator = new markov.MarkovGenerator(2,500,' ');
-var tgenerator = new markov.MarkovGenerator(4,500,'');
+var tgenerator = new markov.MarkovGenerator(4,50,'');
+
+
 
 function clean(txt) {
   var rg = /<.*?>/g;
@@ -40,9 +43,14 @@ function loadVenue(venue) {
       if (data.length > 0) {
         for (var j = 0; j < data.length; j++) {
           var name = data[j].project_name;
+
+
           var txt = data[j].elevator_pitch; // project_name;
           //var txt = data[j].description; // project_name;
           if (txt && name) {
+            // Lots of names have parenthese which don't get closed
+            name = name.replace(/(\(|\))/g,'');
+
             txt = clean(txt);
             name = clean(name);
 
@@ -55,6 +63,9 @@ function loadVenue(venue) {
           }
         }
       }
+      loadedcount++;
+      console.log("loading: " + loadedcount + " out of " + (end-start));
+
     });
   };
   var options = {
@@ -66,7 +77,6 @@ function loadVenue(venue) {
 
 for (var i = start; i < end; i++) {
   loadVenue(i);
-  console.log("loading venue: " + i);
 }
 
 function capIt(s) {
@@ -87,13 +97,25 @@ function process(s) {
 }
 
 
-/* GET home page. */
-router.get('/', function(req, res) {
-  //console.log(count);
+/* Get an id */
+router.get('/:id', function(req, res) {
+  //console.log(req.params);
+  var seed = Number(req.params.id);
+  tgenerator.setSeed(seed);
+  generator.setSeed(seed);
   var gtitle = tgenerator.generate();
-  //console.log("Chose: " + tgenerator.lastChoice);
   var gpitch = process(generator.generate(tgenerator.lastChoice));
-  res.render('index', { title: 'What is my ITP Project?', gentitle: gtitle, pitch: gpitch });
+  res.render('index', { title: 'What is my ITP Project?', gentitle: gtitle, pitch: gpitch, perma: seed });
+});
+
+/* No id */
+router.get('/', function(req, res) {
+  var seed = Math.floor(Math.random()*521288629);
+  tgenerator.setSeed(seed);
+  generator.setSeed(seed);
+  var gtitle = tgenerator.generate();
+  var gpitch = process(generator.generate(tgenerator.lastChoice));
+  res.render('index', { title: 'What is my ITP Project?', gentitle: gtitle, pitch: gpitch, perma: seed });
 });
 
 module.exports = router;

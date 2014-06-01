@@ -110,10 +110,7 @@ footer {
 	right: 0;
 }
 
-footer a {
-	text-decoration: none;
-	color: #000;
-}
+
 
 footer a:hover {
 	text-decoration: underline;

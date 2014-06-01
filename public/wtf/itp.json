@@ -1,0 +1,47 @@
+{
+    "heading": [
+        "My ITP Camp Project is"
+    ],
+
+    "response": [
+        "Nice work",
+        "Ooooooh",
+        "Ding ding ding"
+    ],
+
+    "template": [
+        "@concept @type made with @tech and @material",
+        "@concept @type made with @material and @tech"
+    ],
+
+    "concept": [
+        "Climate change",
+        "Programmable furniture"
+    ],
+
+    "type": [
+        "web site",
+        "sculpture",
+        "installation",
+        "data visualization",
+        "app"
+    ],
+
+    "tech": [
+        "ardunio",
+        "LEDs",
+        "Processing",
+        "openFrameworks",
+        "Cinder",
+        "javascript",
+        "python",
+        "a kinect"
+    ],
+
+    "material": [
+        "paper",
+        "cardboard",
+        "glue",
+        "ink"
+    ]
+}

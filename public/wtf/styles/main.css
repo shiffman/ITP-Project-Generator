@@ -69,14 +69,12 @@ noscript {
 }
 
 #generate {
-	text-decoration: none;
 	font-size: 20px;
-	color: #000;
+	color: #FF00B7;
 }
 
 #generate:hover {
-	text-decoration: underline;
-	color: black;
+
 }
 
 aside {
@@ -110,7 +108,9 @@ footer {
 	right: 0;
 }
 
-
+footer a {
+	color: #FF00B7;
+}
 
 footer a:hover {
 	text-decoration: underline;
